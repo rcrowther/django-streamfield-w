@@ -1,0 +1,14 @@
+{% extends "streamfield/block_forms/sequence_member.html" %}
+{% load i18n %}
+
+{% block header_controls %}
+    <button type="button" id="{{ prefix }}-moveup" class="c-sf-block__actions__single button" title="{% trans 'Move up' %}">
+        <span aria-hidden="true">Move up</span>
+    </button>
+    <button type="button" id="{{ prefix }}-movedown" class="c-sf-block__actions__single button" title="{% trans 'Move down' %}">
+        <span aria-hidden="true">Move down</span>
+    </button>
+    <button type="button" id="{{ prefix }}-delete" class="c-sf-block__actions__single button" title="{% trans 'Delete' %}">
+        <span aria-hidden="true">Delete</span>
+    </button>
+{% endblock %}

@@ -1,0 +1,55 @@
+.c-sf-container {
+    margin-left:160px;
+    padding: 0 10px;
+}
+
+.c-sf-block__header button, 
+.c-sf-add-panel button {
+    padding: 3px 12px;
+    margin-left: 5px;
+}
+
+.c-sf-add-panel button {
+    background-color: #8fabeb;
+}
+
+.c-sf-add-panel button:hover {
+    background: #7f9bda;
+}
+
+.c-sf-block__header {
+    margin-top: 3px;
+}
+
+.c-sf-block__content {
+    padding: 3px 0 12px 0;
+}
+
+/* Django style-killer */
+.c-sf-block__content label {
+    float: none;
+    width:4rem;    
+}
+
+.c-sf-block__content .field__label,  
+.c-sf-block__content .field__content {
+    display:inline-block;
+}
+
+.aligned  ul.errors-block {
+    margin: 0 0 4px;
+    padding: 0;
+    color: #ba2121;
+    background: #fff;
+}
+
+ul.errors-block li {
+    font-size: 13px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.field__content .help {
+    margin-left: 0;
+    padding-left: 0;
+}

@@ -1,0 +1,25 @@
+{% extends "streamfield/block_forms/sequence_member.html" %}
+{% load i18n %}
+
+{% block hidden_fields %}
+    <input type="hidden" id="{{ prefix }}-type" name="{{ prefix }}-type" value="{{ child_block.name }}">
+    <input type="hidden" id="{{ prefix }}-id" name="{{ prefix }}-id" value="{{ block_id|default:"" }}">
+{% endblock %}
+
+{% block block_type_label %}{{ child_block.label }}{% endblock %}
+
+{% block header_controls %}
+    <button type="button" id="{{ prefix }}-moveup" class="c-sf-block__actions__single button" title="{% trans 'Move up' %}">
+        Move up
+    </button>
+    <button type="button" id="{{ prefix }}-movedown" class="c-sf-block__actions__single button" title="{% trans 'Move down' %}">
+        Move down
+    </button>
+    <button type="button" id="{{ prefix }}-delete" class="c-sf-block__actions__single button" title="{% trans 'Delete' %}">
+        Delete
+    </button>
+{% endblock %}
+
+{% block footer_controls %}
+    {% include "streamfield/block_forms/stream_menu.html" with menu_id=prefix|add:"-appendmenu" state="closed" %}
+{% endblock %}

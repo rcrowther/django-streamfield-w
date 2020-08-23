@@ -1,0 +1,19 @@
+{% load streamfield_tags %}
+
+<div class="field__content {{ fieldtype }} widget-{{ widgettype }}{% if name %} fieldname-{{ name }}{% endif %}{% if errors %} errors{% endif %}">
+        {% if errors %}
+            <ul class="errors-block">
+                {% for error in errors %}
+                    <li>{{ error|escape }}</li>
+                {% endfor %}                
+            </ul>
+        {% endif %}
+        <div class="input">
+            {{ widget }}
+            {# This span only used on rare occasions by certain types of input #}
+            <span></span>
+        </div>
+        {% if field.help_text %}
+            <p class="help">{{ field.help_text }}</p>
+        {% endif %}
+</div>

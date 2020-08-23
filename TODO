@@ -1,0 +1,35 @@
+
+Response to request with pk f3e19cd5-b19e-4a1b-a4e7-30694e30816d has content type text/javascript but was unable to parse it
+
+## Widgets
+x(but logical?) Cursor movement jumps when fly-validatitng temporal
+x(not possible) Sideways expanding charfields?
+
+## CSS
+
+## Field
+x Cant get rid of toplevel error class because written in in Admin (colours all the blocks, not the relevat ones)
+
+## blocks
+Not tried groups
+Title?
+Code?
+x footer?
+x header?
+required not getting into template
+Test ModelChoices
+Put default someplace else? It's only used on Choosers?
+File uploader again?
+List should have max/min
+
+## Fields
+
+Needs a lot of tidying
+(retain) get_searchable_content
+x(no) Remove pre-save
+
+## Style
+
+## Test
+Oh dear
+

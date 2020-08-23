@@ -1,0 +1,17 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "streamfield"
+dist-name = "django-streamfield-w"
+author = "robert crowther"
+author-email = "rw.crowther@gmail.com"
+home-page = "https://github.com/rcrowther/django-streamfield-w"
+description-file = "README.md"
+classifiers=[
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Framework :: Django"
+]

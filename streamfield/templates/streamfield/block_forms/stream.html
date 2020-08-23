@@ -1,0 +1,9 @@
+{% extends "streamfield/block_forms/sequence.html" %}
+
+{% block header %}
+    {% if list_members_html %}
+        {% include "streamfield/block_forms/stream_menu.html" with menu_id=prefix|add:"-prependmenu" state="closed" %}
+    {% else %}
+        {% include "streamfield/block_forms/stream_menu.html" with menu_id=prefix|add:"-prependmenu" state="open" %}
+    {% endif %}
+{% endblock %}
