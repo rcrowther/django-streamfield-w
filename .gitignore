@@ -1,4 +1,4 @@
 __pycache__
 migrations/
-
+dist
 *.bck
