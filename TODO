@@ -11,22 +11,29 @@ x(not possible) Sideways expanding charfields?
 x Cant get rid of toplevel error class because written in in Admin (colours all the blocks, not the relevat ones)
 
 ## blocks
-Not tried groups
-Title?
-Code?
-x footer?
-x header?
-required not getting into template
+Not tried groups. This seems to be Wagtail UI affair, and can probably be deleted.
+TitleBlock?
+CodeBlock?
+x FooterBlock?
+x HeaderBlock?
+'required' not getting into template
 Test ModelChoices
-Put default someplace else? It's only used on Choosers?
+Put 'default' someplace else? It's only used on Choosers?
+'default' is the last relic of Wgatils 'pile the attributes on the Media object' approach. Without it, the code to load attributes on Media can be removed.
+Can we 'init'?
+'label' is unused, except for errors in StaticBlock. Can we do label mods, or does this disrupt the Javascript?
+
 File uploader again?
 List should have max/min
+Collection Values are inconsistently implemented, holding bound blocks sometimes.
+Collection blocks would recursively render better if Block values cartried associated fields, not just the collection block
 
 ## Fields
-
 Needs a lot of tidying
 (retain) get_searchable_content
 x(no) Remove pre-save
+What are dynamic templates for? If that is over-configuration, remove them
+
 
 ## Style
 

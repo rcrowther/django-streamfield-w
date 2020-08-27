@@ -1,7 +1,7 @@
 # StreamField
 A Streamfield for Django. Saves data as JSON to the referenced field. The admin display is designed to operate unobtrusively and be styled as the stock Django Admin.
 
-I called the app Streamfield2, but internally it is called 'streamfield'.
+The distribution is called 'django-streamfield-w', but internally the module is called 'streamfield'.
 
 ## Pros
 - It's a StreamField
@@ -9,10 +9,12 @@ I called the app Streamfield2, but internally it is called 'streamfield'.
 
 ## Cons
 - No file or image handling (unless you implement from another app)
-- Small, but scenery-chewing, admin
+- Small but scenery-chewing admin
+
+And an admission: anything that works here has needed code reduction, code expansion, and/or hacks. There are still many possibilities for work within the programmer API. So this codebase will not be solid anytime soon, and lacks tests on code, app, and distribution. Best I can say is that I have outlined the functionality.
 
 ## Examples
-Want to give a use the ability to add blocks of text, interspaced with blockquotes, URL links and dates?  Declare this field,
+Want to give a user the ability to add blocks of text, interspaced with blockquotes, URL links and dates?  Declare this field,
 
     body = StreamField(
         block_types = [
@@ -51,19 +53,23 @@ which renders as,
 ## Alternatives
 [Steamfield](https://github.com/raagin/django-streamfield/blob/master/README.md) for Django.
 
-This app didn't work for me. However, the UI, which uses Django's popup mechanism, was interesting, as is the code. There are substantial and notable differences between this app and the code provided here.
+This app didn't work for me. However, the UI, which uses Django's popup mechanism, is interesting, as is the code. There are substantial and notable differences between this app and the code provided here.
 
 
 ## If you have done this before
 - [Install](#install)
 - [Add fields](#declaring-fields) to models that will use them
-- Migrate the model
+- (as you would usually) Migrate the models
 
 That's all.
 
 
 ## Install
-No dependencies. Download the app code to Django.
+No dependencies. PyPi,
+
+    pip install django-streamfield-w
+
+Or download the app code to Django.
 
 Declare in Django settings,
 
@@ -193,7 +199,7 @@ There blocks represent most of Djangos's form fields. To get you going, here is 
 
 As you can see from the declarations, blocks can be declared as classes (with default parameters), or instances (with optional parameter details).
 
-You may note the lack of a FileBlock/FileUploadBlock. This would give embedded images, so is a serious loss. However, it difficult to make an uploader block, as Django spreads the functionality across model processing, and there is no model instance or field to work with (StreamField data is a lump of JSON). If your images/galleries etc. are tracked in the database, make a custom ModelChoceBlock. That's the Wagtail solution.
+You may note the lack of a FileBlock/FileUploadBlock. This would give embedded images, so is a serious loss. However, it difficult to make an upload block, as Django spreads the functionality across model processing, and there is no model instance or field to work with (StreamField data is a lump of JSON). If your images/galleries etc. are tracked in the database, make a custom ModelChoceBlock. That's the Wagtail solution.
 
 Notes on some of the blocks,
 
@@ -378,7 +384,7 @@ This will do as you hope, produce a one-click field of several blocks at once. H
             verbose_name="Page block"
         )
 
-This is a big StreamField win. A user can write text, then insert a figure anywhere they like, Which database solutions can not do. And RichText i.e. text markup, can not structure the input.
+This is a big StreamField win. A user can write text, then insert this QuoteBlock anywhere they like, Which database solutions can not do. And RichText i.e. text markup, can not structure the input.
 
 
 #### StreamBlock
@@ -428,17 +434,17 @@ The problems start here. Many, many Javascripts auto-run on page initialisation.
 
 Then you must hope the author built the script with a hook for initialisation. Again, if such a breakout of functionality is missing. you will need to modify.
 
-Then you need to initialise. First, ignore the method in blocks called jsinitialiser(). This may seem promising, but it is for setup of block code on page load. The Wagtail solution is to add a script to the block template (the template is written into the page). This will run whenever a block is loaded into the main form. In a typically cute piece of code, Wagtail have a mixin to do this, called WidgetWithScript. WidgetWithScript is ported to this app as 'streamfield.widgets.WithScript'. All the app widgets use it.
+Then you need to initialise. First, ignore the method in blocks called jsinitialiser(). This may seem promising, but it is for setup of block code on page load. The Wagtail solution is to add a script to the block template (the template is written into the page). This will run whenever a block is loaded into the main form. In a typically cute piece of code, Wagtail have a mixin to do this, called WidgetWithScript. WidgetWithScript is ported to this app as 'streamfield.widgets.WithScript'. All the field block widgets use it.
 
 If initialisation is not targeted and precise, there can be unwanted effects. For example, outside of Streamfields, a few people have wished to reuse Django Admin widgets. Well, if the widget initialisation runs on page load, then is initialised dynamically later, forms can display with, for example, multiple clocks and calenders attached to temporal inputs. And there is no way to namespace this behaviour away.
 
-Finally, you need to consider Javascript imports. Django does a somewhat unpubicised dependency resolution on JS resources. Mostly this is great, removing duplicates and ensuring, for example, that JQuery scripts run after JQuery is loaded. But, in such a case, you must declare a JQuery dependency in the widget, or the resouce may be sorted before the JQuery library. And don't try a simple rename on JS resources, in the hope this will namespace the code. The dependency resolution will not be able to see the code rename, so will write the code in twice, and then you are in trouble. 
+Finally, you need to consider Javascript imports. Django does a somewhat unpubicised dependency resolution on JS resources. Mostly this is great, removing duplicates and ensuring, for example, that JQuery scripts run after JQuery is loaded. But, in such a case, you must declare a JQuery dependency in the widget, or the resource may be sorted before the JQuery library. And don't try a simple rename on JS resources, in the hope this will namespace the code. The dependency resolution will not be able to see the code rename, so will write the code in twice, and then you are in trouble. 
 
 All in all, to add Javascripted widgets to a streamfield block,
 - Preferably find Javascript that does nothing on pageload, or disable it. Especially avoid Javascript with general searches. You need a function ''do this to element with 'id' XXX'
 - Add the widget to a new FieldBlock, using the broken-out definitions above
 - Use streamfield.widgets.WithWidget to initialise
-- On the Media class of the widget, declare dependancies for the Javascript, including external dependencies like JQuery
+- On the Media class of the widget, declare dependencies for the Javascript, including external dependencies like JQuery
 - Besides dependencies, beware how the Javascript loads into namespaces. If it is loaded on ''window', will it clash/ produce side-effects?
 
 This  app has default widgets that seemed to suit the overall theme. but the above points were also a consideration.
@@ -483,7 +489,7 @@ And the elements can be controlled by their 'block_type' and 'value' directly,
         {% endif %}
     {% endfor %}
 
-I would not be keen on programming which individually targets element, because what happens if you later introduce collections into the field? But the possibility is there.
+I would not be keen on programming which individually targets elements, because what happens if you later introduce collections into the field? But the possibility is there.
 
 
 ## Templating and HTML
@@ -498,21 +504,21 @@ The default rendering is set to be slim and somewhat aimed at supporting HTML ty
 ### What is a streamfield?
 When people talk about text, they usually mean more than that. They usually mean a descending block that includes text, images, maybe titles, and various other structures such as lists and indexes. The 'content'.
 
-How to represent this in a structured way has always been an issue, especially for databases. Some very, very structured text can be broken into database fields. Think of a product review, which will have a title, photograph, review and conclusion. Indeed, this is often used as an example.
+How to represent this in a structured way has always been an issue, especially for databases. Some very, very structured text can be broken into database fields. Think of a product review, which will have a title, photograph, review and conclusion. Indeed, reviews are often used as an example.
 
-But much text is not rigidly structured. An article for a newspaper may have images inserted, depending on what the staff managed to photograph. A book may have ocassional illustrations. An author of technical books may wish to insert tables or checklists. The rigid structures of a database can not model these cases.
+But much text is not rigidly structured. An article for a newspaper may have images inserted, depending on what the staff managed to photograph. A book may have occasional illustrations. An author of technical books may wish to insert tables or checklists. The rigid structures of a database can not model these cases.
 
-The answer would seem to be obvious, and has been used for years. Various text markup languages, from LaTex to HTML are designed for to define structures which can be organised in a freeform way. Why not store these as a blob of text in a 'content' or 'body' database field?
+The answer would seem to be obvious, and has been used for years. Various text markup languages, from LaTex to HTML are designed to define structures which can be organised in a freeform way. Why not store these as a blob of text in a 'content' or 'body' database field?
 
 Unfortunately, this fails both the end-user and the computer. The end user knows the structures they want. They know they want a blockquote, even if they don't know the name for it. But they have no time or life to learn markup. So they try to reproduce what they see using indents, or worse, tabs. Coders try to get round this using complex WYSIWYG editors but, marvels of coding though they are, the structure is still not reaching the user. It's known fact that users hate those editors. They never "do what I want".
 
 As for computers, the data is stored in an unstructured blob in a hard-to-parse text format. And if the user has faked text structure, there is no record of their intention. And introducing the possibility of markup to end-users opens up a large security hole.
 
-A streamfield stores the structures of the text not as text markup, but in a computer format. There are at least two ways of storing the structures. The first is to keep all structures in dedicated tables, for example a 'blockquote' table, and keep track of the order a user asked for them to be organised. The other way is to write down a blob of data to a field, but in a format computers can really get to grips with, like JSON.
+A streamfield stores the structures of the text not as text markup, but in a computer format. There are at least two ways of storing the structures. The first is to keep all structures in dedicated tables, for example a 'blockquote' table, and keep track of the order a user asked for them to be organised. The other way is to write down a blob of data to a field, but in a format computers can get to grips with, like JSON.
 
-Either way, a computer format benefits both user and computer. The user gets a stream of forms that can "do what they want". If they don't find a form, at least that is clear. And the computer gets the kind of data they like, structured lists of encoded data.
+Either way, a computer format benefits both user and computer. The user gets a stream of forms that "do what they want". If they don't find a form, at least that is clear. And the computer gets the kind of data they like, structured lists of encoded data.
 
-The main difficulty is that the structures are a massive challenge to web-coders. They need to be parsed to produce a screen representation. And making forms for all the structures needed is a trial of endurance. Not to mention that dynamically creating web-forms is naturally a Javascript/HTML battleground. But people are trying. 
+The main difficulty is that the structures are a massive challenge to web-coders. They need to be parsed to produce a screen representation. And making forms for all the structures needed is a trial of endurance. Not to mention that dynamically creating web-forms is a Javascript/HTML battleground. But people are trying. 
 
 
 ## The difference between Django-streamfield and Wagtail CMS implementations
@@ -533,8 +539,8 @@ Wagtail has a well-worked Richtext implementation. But, in short, this app has s
 
 
 ### History/Credits
-This was originally intended to be a port of Wagtail's StreamField. However, that code is closely tied to Wagtail's custom Admin, so was abandoned. I looked at [Steamfield](https://github.com/raagin/django-streamfield/blob/master/README.md), but that code is tied to it's data representation. I reverted to porting the Wagtail code. Because [this](https://pypi.org/project/wagtail-react-streamfield/) exists, this code sooner or later becomes a fork.
+This was originally intended to be a port of Wagtail's StreamField. However, that code is closely tied to Wagtail's custom Admin, so was abandoned. I looked at [Steamfield](https://github.com/raagin/django-streamfield/blob/master/README.md), but that code is tied to it's data representation. I reverted to porting the Wagtail code. Because [this](https://pypi.org/project/wagtail-react-streamfield/) exists, this code sooner or later becomes a maintained branch.
 
-The base Javascript and field handling remains as in Wagtail. There are tricks to make this work in Django, and some Wagtail-specific functionality is removed. The programmer API is reworked and extended, and not like Wagtail.
+The base Javascript and field handling remains as in Wagtail. There are tricks to make this work in Django, and most Wagtail-specific functionality is removed. The programmer API is reworked and extended, and not like Wagtail.
 
 Throughout, I was trying not to learn anything about StreamField implementations. I only partially succeeded.

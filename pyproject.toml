@@ -4,7 +4,6 @@ build-backend = "flit_core.buildapi"
 
 [tool.flit.metadata]
 module = "streamfield"
-description = "A field of extendable blocks stored as JSON. Ported from Wagtail, with new DjangoAdmin-like API.",
 version = 0.0.1
 dist-name = "django-streamfield-w"
 author = "robert crowther"
