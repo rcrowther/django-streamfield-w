@@ -212,6 +212,32 @@ class CharBlock(FieldBlock):
 
 
 
+class HeaderBlock(CharBlock):
+    '''
+    level
+        level to set the HTML heading (<h1>, <h4> etc). Default=3.
+    '''
+    level = 3
+    def __init__(self,
+            level=3, 
+            **kwargs
+        ):
+        #NB kwargs that reach block initialisation are placed on Meta.
+        super().__init__(**kwargs)
+        self.level = level or self.level
+        
+    def render_basic(self, value, context=None):
+        if value:
+            return format_html('<h{1}{2}>{0}</h{1}>', 
+                value,
+                self.level,
+                self.render_css_classes(context)
+            )
+        else:
+            return ''
+            
+            
+
 class QuoteBlock(CharBlock):
 
     def render_basic(self, value, context=None):
@@ -1212,7 +1238,7 @@ class ModelMultipleChoiceBlock(ModelChoiceBlock):
 # rather than streamfield.blocks.field_block.FooBlock
 block_classes = [
     FieldBlock, 
-    CharBlock, QuoteBlock, EmailBlock, RegexBlock, URLBlock, RelURLBlock,
+    CharBlock, HeaderBlock, QuoteBlock, EmailBlock, RegexBlock, URLBlock, RelURLBlock,
     RawAnchorBlock, AnchorBlock,
     TextBlock, BlockQuoteBlock, RawHTMLBlock, 
     BooleanBlock, 

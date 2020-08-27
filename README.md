@@ -170,6 +170,8 @@ There blocks represent most of Djangos's form fields. To get you going, here is 
                     max_length=5,
                     ),
                 ),
+                ('subtitle', blocks.HeaderBlock()),
+                ('subsubtitle', blocks.HeaderBlock(level=4)),
                 ('quote', blocks.QuoteBlock(
                     required=False,
                     ),
@@ -377,7 +379,6 @@ This will do as you hope, produce a one-click field of several blocks at once. H
     class Page(models.Model):
         stream = StreamField(
             block_types = [
-                ('subtitle', blocks.CharBlock()),
                 ('text', blocks.TextBlock()),
                 ('quote', QuoteBlock()),
             ],

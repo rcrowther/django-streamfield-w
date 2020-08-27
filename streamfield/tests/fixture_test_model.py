@@ -47,6 +47,8 @@ class Page(models.Model):
                     # max_length=5,
                     # ),
                 # ),
+                # ('subtitle', blocks.HeaderBlock()),
+                # ('subsubtitle', blocks.HeaderBlock(level=4)),
                 # ('quote', blocks.QuoteBlock(
                     # required=False,
                     # ),
@@ -84,18 +86,11 @@ class Page(models.Model):
             # ],
         # verbose_name="Streamfield with CharBlock attributes"
     # )
-                    
-    stream = StreamField(
-        block_types = [
-            ('subtitle', blocks.CharBlock()),
-            ('text', blocks.TextBlock()),
-            ('quote', QuoteBlock()),
-        ],
-        verbose_name="Streamfield for text content"
-    )
 
     # stream = StreamField(
         # block_types = [
+            # ('subtitle', blocks.HeaderBlock()),
+            # ('subsubtitle', blocks.HeaderBlock(level=4)),
             # ('text', blocks.TextBlock(placeholder='qzapp')),
             # ('blockquote', blocks.BlockQuoteBlock),
             # ('quote', QuoteBlock()),
